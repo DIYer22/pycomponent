@@ -6,6 +6,7 @@ from boxx import np
 
 """
 把 obj 转换 pickle, 通过 msgpack 以二进制形式传输
+有的情况可以考虑使用 rpyc
 不用json 的原因是 json 传 bin code 需要转 base64
 """
 
