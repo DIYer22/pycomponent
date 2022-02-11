@@ -65,6 +65,16 @@ def encode_img_dic(img_dic):
     return {name: f(name, img) for name, img in img_dic.items()}
 
 
+def filter_too_long_string_in_json(js, max_len=20000):
+    return {
+        k: "Filtered too_long_%s for json, original len() is %s"
+        % (type(v).__name__, len(v))
+        if (isinstance(v, (str, bytes)) and len(v) > max_len)
+        else v
+        for k, v in js.items()
+    }
+
+
 def test(dirr="__pycache__"):
     dic = dir_to_b64_dic(dirr)
 
