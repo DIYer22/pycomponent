@@ -1,4 +1,4 @@
-__version__ = "0.2201.0"
+__version__ = "0.2201.2"
 __description__ = "pycomponent: components for python"
 __license__ = "MIT"
 __author__ = "DIYer22"

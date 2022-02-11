@@ -9,7 +9,7 @@ import json
 import base64
 
 
-def dir_to_b64_dic(dirr):
+def dir_to_byte_dic(dirr):
     bnames = os.listdir(dirr)
     return {
         bname: open(pathjoin(dirr, bname), "rb").read()
@@ -18,32 +18,32 @@ def dir_to_b64_dic(dirr):
     }
 
 
-def b64_dic_to_dir(b64_dic, dirr):
+def byte_dic_to_dir(byte_dic, dirr):
     os.makedirs(dirr, exist_ok=True)
-    for bname, binary in b64_dic.items():
+    for bname, binary in byte_dic.items():
         with open(pathjoin(dirr, bname), "wb") as f:
             f.write(binary)
 
 
-def b64_dic_to_json_str(b64_dic):
+def byte_dic_to_json_str(byte_dic):
     base64_dic = {
-        k: base64.b64encode(binary).decode("ascii") for k, binary in b64_dic.items()
+        k: base64.b64encode(binary).decode("ascii") for k, binary in byte_dic.items()
     }
     return json.dumps(base64_dic)
 
 
-def json_str_to_b64_dic(json_str):
+def json_str_to_byte_dic(json_str):
     js = json.loads(json_str)
-    b64_dic = {k: base64.b64decode(b64) for k, b64 in js.items()}
-    return b64_dic
+    byte_dic = {k: base64.b64decode(b64) for k, b64 in js.items()}
+    return byte_dic
 
 
-def decode_b64_dic(b64_dic):
+def imdecode_byte_dic(byte_dic):
     dic = {
         k: cv2.imdecode(np.frombuffer(binary, np.uint8), cv2.IMREAD_UNCHANGED)
         if k[-3:] in ["jpg", "png"]
         else binary
-        for k, binary in b64_dic.items()
+        for k, binary in byte_dic.items()
     }
 
     return {
@@ -54,7 +54,7 @@ def decode_b64_dic(b64_dic):
     }
 
 
-def encode_img_dic(img_dic):
+def imencode_img_dic(img_dic):
     def f(name, img):
         if isinstance(img, np.ndarray):
             if img.ndim == 3 and img.shape[-1] == 3:
@@ -76,15 +76,15 @@ def filter_too_long_string_in_json(js, max_len=20000):
 
 
 def test(dirr="__pycache__"):
-    dic = dir_to_b64_dic(dirr)
+    dic = dir_to_byte_dic(dirr)
 
-    tdir = "/tmp/b64_dic"
-    b64_dic_to_dir(dic, tdir)
+    tdir = "/tmp/byte_dic"
+    byte_dic_to_dir(dic, tdir)
     os.system(f"tree {tdir}")
     boxx.tree - dic
 
-    js = b64_dic_to_json_str(dic)
-    redic = json_str_to_b64_dic(js)
+    js = byte_dic_to_json_str(dic)
+    redic = json_str_to_byte_dic(js)
 
     boxx.tree - redic
     boxx.g()
