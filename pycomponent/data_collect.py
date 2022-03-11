@@ -2,7 +2,7 @@
 import os
 import boxx
 from boxx import *
-from boxx import listdir, pathjoin
+from boxx import pathjoin
 import shutil
 from pathlib import Path
 from threading import Lock
@@ -103,9 +103,11 @@ class DataCollect:
             boxx.setTimeout(rm_over_limit)
         return ok
 
-    def new_dir(self, makedir=True):
+    def new_dir(self, name=None, makedir=True):
         self.check_free_sapce()
-        dirr = pathjoin(self.root, boxx.localTimeStr())
+        if name is None:
+            name = boxx.localTimeStr()
+        dirr = pathjoin(self.root, str(name))
         if makedir:
             os.makedirs(dirr, exist_ok=True)
         return dirr

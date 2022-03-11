@@ -1,5 +1,5 @@
-__version__ = "0.2201.2"
-__description__ = "pycomponent: components for python"
+__version__ = "0.2203.0"
+__description__ = "Code components for python projects."
 __license__ = "MIT"
 __author__ = "DIYer22"
 __author_email__ = "ylxx@live.com"
