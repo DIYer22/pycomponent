@@ -38,7 +38,7 @@ class TransportPack:
     @classmethod
     def test(cls, obj=None):
         if obj is None:
-            img = boxx.uint8(np.random.random((2 ** 20)))
+            img = boxx.uint8(np.random.random((2**20)))
             obj = {"str": "abc", "img": img}
         with boxx.timeit("packed"):
             packed = cls.pack(obj)

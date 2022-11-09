@@ -33,7 +33,7 @@ class DataCollect:
     def __init__(
         self,
         root,
-        free_disk_size=2 ** 30,
+        free_disk_size=2**30,
         max_num=None,
         check_interval=24 * 60 * 3600,
         log=True,
@@ -94,9 +94,12 @@ class DataCollect:
                             f"DataCollect: To keep {self.format_size(self.free_disk_size)} free space, need to rm {self.format_size(multiple * self.free_disk_size - free_sapce)}"
                         )
                     paths = self.sort_listdir()
-                    while self.get_free_space() < multiple * self.free_disk_size and len(
-                        paths
+                    while (
+                        self.get_free_space() < multiple * self.free_disk_size
+                        and len(paths) > 4
                     ):
+                        # at least one data item to avoide rm current dir
+                        # remain 4 data items for some multi-threading situation
                         path = paths.pop(0)
                         self.rm(path)
 
